@@ -33,7 +33,7 @@ i2c:
 light:
   - platform: status_led
     name: ESP32 LED
-    pin: GPIO14
+    pin: GPIO2
     internal: False
     restore_mode: ALWAYS_OFF
 
