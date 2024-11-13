@@ -5,7 +5,7 @@ esphome:
   name_add_mac_suffix: True
   project: 
     name: EverythingSmartTechnology.Everything Presence Lite
-    version: "1.0.2"
+    version: "1.2.0"
 
 esp32:
   board: esp32dev
@@ -20,15 +20,22 @@ logger:
 api:
 
 ota:
+  - platform: esphome
+    id: ota_esphome
+  - platform: http_request
+    id: ota_http_request
+
+http_request:
 
 wifi:
 
 improv_serial:
 
 i2c:
- sda: 21
- scl: 22
- scan: true
+-  id: bus_a
+   sda: 21
+   scl: 22
+   scan: true
 
 light:
   - platform: status_led
@@ -59,10 +66,13 @@ sensor:
   - platform: bh1750
     name: Illuminance
     id: illuminance_sensor
+    i2c_id: bus_a
     address: 0x23
     update_interval: ${illuminance_update_interval}
     filters:
       - lambda: "return x + id(illuminance_offset_ui).state;"
+      - clamp:
+          min_value: 0
 
 button:
   - platform: restart
